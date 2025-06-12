@@ -1,10 +1,11 @@
 # Sprint Plan - NixSpaces
 
-## Current Sprint: Sprint 0 - Project Setup
+## Previous Sprint: Sprint 0 - Project Setup ✅
 **Duration**: 1 day
 **Goal**: Set up development environment and prepare for MVP development
+**Status**: Completed
 
-### Completed Tasks ✅
+### Completed Tasks
 - [x] Create comprehensive flake.nix with all development dependencies
 - [x] Set up project directory structure
 - [x] Initialize Rust backend with Cargo.toml
@@ -14,11 +15,48 @@
 - [x] Create .envrc for direnv integration
 - [x] Add sprint_plan.md template
 
-### Ready for Development 🚀
-The project is now ready for sprint planning and MVP development. Next steps:
-1. Run first sprint planning session
-2. Focus on MVP features from .docs/MVP_SPEC.md
-3. Begin TDD cycle for first feature
+---
+
+## Current Sprint: Sprint 1 - Foundation
+**Duration**: 5 days
+**Goal**: Build core API foundation with GraphQL and basic frontend structure for accepting GitHub URLs
+
+### Context
+This sprint lays the groundwork for our MVP by establishing the core API structure and basic frontend. We'll implement the fundamental GraphQL API that all future features will build upon, create the initial frontend with URL input capability, and ensure our development workflow is solid with proper testing infrastructure.
+
+### Priority Order
+1. [ ] **Backend GraphQL API Setup** - Set up Axum server with async-graphql, implement health check endpoint, and create basic GraphQL schema with query/mutation roots. TDD: Write integration tests for GraphQL endpoint availability and health check.
+
+2. [ ] **Database Schema & Migrations** - Design initial database schema for environments table, set up SQLx migrations, and implement connection pooling. TDD: Write tests for database connectivity and migration runner.
+
+3. [ ] **Core Environment Types & Repository** - Create Rust types for Environment entity, implement repository pattern for database access, and add CRUD operations for environments. TDD: Write unit tests for repository methods using test fixtures.
+
+4. [ ] **GraphQL Environment Resolvers** - Implement createEnvironment mutation (accepting GitHub URL), getEnvironment query, and basic error handling. TDD: Write GraphQL integration tests using async-graphql test utilities.
+
+5. [ ] **Frontend Foundation** - Set up SolidJS with Vite, create basic routing structure, implement landing page with GitHub URL input field, and add loading states. TDD: Write component tests using Vitest.
+
+6. [ ] **Frontend-Backend Integration** - Set up GraphQL client (urql or similar), implement environment creation flow, add proper error handling and user feedback. TDD: Write E2E tests for the complete flow using Playwright.
+
+7. [ ] **Development Tooling** - Fix test runner to properly use cargo nextest, set up pre-commit hooks, add GitHub Actions CI workflow. TDD: Ensure all test commands work correctly.
+
+### Technical Debt (20%)
+- [ ] Fix flake.nix issues (duplicate shellHook, test runner configuration)
+- [ ] Set up proper logging infrastructure with tracing
+
+### Notes
+- Key decisions:
+  - Use async-graphql for type-safe GraphQL implementation
+  - SQLx for compile-time checked SQL queries
+  - Repository pattern to separate business logic from data access
+  - urql for frontend GraphQL client (lightweight and SolidJS-friendly)
+- Blockers: None currently identified
+- Dependencies: PostgreSQL must be running for backend development
+
+### Prerequisites
+- Enter dev shell: `nix develop` or use direnv
+- Initialize database: `nix run .#db -- init`
+- Verify environment: `cargo --version && node --version`
+- All dependencies are managed via Nix - no manual installation needed
 
 ---
 

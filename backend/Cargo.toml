@@ -111,14 +111,6 @@ vergen = { version = "8", features = ["build", "cargo", "git", "gitcl"] }
 name = "nixspaces"
 path = "src/main.rs"
 
-[[bench]]
-name = "api_bench"
-harness = false
-
-[[bench]]
-name = "db_bench"
-harness = false
-
 [profile.release]
 opt-level = 3
 lto = "thin"

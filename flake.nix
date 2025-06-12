@@ -211,6 +211,7 @@
             cargo-generate # Project templates
             sqlx-cli # Database migrations
             sccache # Compilation cache
+            just # Command runner for developer tasks
           ] ++ backendBuildInputs ++ frontendTools ++ devTools;
 
           shellHook = ''
@@ -310,9 +311,6 @@ EOF
           RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
           RUST_LOG = "debug";
           RUST_BACKTRACE = 1;
-          
-          # Inherit pre-commit hooks
-          inherit (pre-commit-check) shellHook;
         };
 
         # Useful scripts/apps
@@ -675,9 +673,6 @@ EOF
 
         # Additional development shells
         devShells = {
-          # Default shell (already defined above)
-          inherit (self.devShells.${system}) default;
-          
           # Minimal shell for CI
           ci = pkgs.mkShell {
             buildInputs = with pkgs; [

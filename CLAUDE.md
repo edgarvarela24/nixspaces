@@ -69,25 +69,37 @@ nixspaces/
 
 ## 🚀 NixOS-First Development
 
-### Essential Nix Commands
+### Essential Commands (using `just`)
 ```bash
 # Enter development shell with all tools
 nix develop
-
 # Or use direnv (recommended)
 direnv allow
 
-# Run specific commands without entering shell
-nix run .#dev       # Start development servers (backend + frontend)
-nix run .#test      # Run all tests
-nix run .#fmt       # Format all code
-nix run .#lint      # Run all linters
-nix run .#db        # Database management (start|stop|init|reset|cli|status)
-nix run .#migrate   # Migration tools (new|run|revert|info)
-nix run .#gql       # GraphQL tools (playground|schema|codegen)
-nix run .#sec       # Security checks
-nix run .#bench     # Run benchmarks
-nix run .#docs      # Build/serve documentation
+# Then use just for all development tasks:
+just          # Show all available commands
+just dev      # Start development servers (backend + frontend)
+just test     # Run all tests
+just t        # Quick test (shortcut)
+just t test_name  # Run specific test
+just fmt      # Format all code
+just lint     # Run linters
+just c        # Quick cargo check
+just r        # Quick cargo run
+
+# Database management
+just db-start    # Start PostgreSQL
+just db-stop     # Stop PostgreSQL
+just db-init     # Initialize PostgreSQL (first time)
+just db-reset    # Reset PostgreSQL (delete all data)
+just db-cli      # Open PostgreSQL CLI
+just db-status   # Check PostgreSQL status
+
+# Migrations
+just migrate-new NAME  # Create new migration
+just migrate-run       # Run migrations (or just 'm')
+just migrate-revert    # Revert last migration
+just migrate-info      # Show migration status
 
 # Check flake health
 nix flake check
@@ -100,7 +112,7 @@ nix flake update
 1. **First time setup:**
    ```bash
    # Initialize database
-   nix run .#db -- init
+   just db-init
    
    # Install frontend dependencies (auto-done by nix develop)
    cd frontend && pnpm install && cd ..
@@ -111,10 +123,11 @@ nix flake update
    # Option 1: Use direnv (automatic)
    cd /path/to/nixspaces
    # Environment loads automatically
+   just dev  # Start development
    
    # Option 2: Manual
    nix develop
-   nix run .#dev
+   just dev  # Start development
    ```
 
 ### Nix Best Practices
@@ -134,20 +147,19 @@ Pre-commit hooks are automatically installed when entering the dev shell:
 - Secret scanning (gitleaks)
 - File cleanup (trailing spaces, EOF)
 
-## Key Commands - Functions Written In flake.nix
-- `nix run .#dev` - Start both backend and frontend in tmux
-- `nix run .#test` - Run all tests (backend + frontend)
-- `nix run .#fmt` - Format all code (Rust, Nix, JS/TS)
-- `nix run .#lint` - Run all linters
-- `nix run .#db -- {start|stop|init|reset|cli|status}` - Database management
-- `nix run .#migrate -- {new|run|revert|info}` - Database migrations
-- `nix run .#gql -- {playground|schema|codegen}` - GraphQL tools
-- `nix run .#sec` - Run security checks
-- `nix run .#bench -- {rust|api|db|all}` - Run benchmarks
-- `nix run .#docs -- {build|serve}` - Documentation
-- `nix flake check` - Run all flake checks
-- `nix develop` - Enter development shell
-- `nix build` - Build production artifacts
+## Key Commands
+All development commands are managed through `just`. After entering the nix shell (`nix develop` or via direnv), run:
+
+```bash
+just          # List all available commands
+just dev      # Start development environment
+just test     # Run all tests
+just t        # Quick test runner (accepts arguments)
+just fmt      # Format code
+just lint     # Run linters
+```
+
+For a complete list of commands, see the `justfile` in the project root.
 
 ## 📁 Project Structure Maintenance
 **IMPORTANT**: Always keep the project structure in this file up to date when:
