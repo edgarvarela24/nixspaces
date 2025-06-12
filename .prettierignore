@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+target/
+result
+result-*
+
+# Generated files
+*.lock
+pnpm-lock.yaml
+frontend/src/generated/
+backend/src/generated/
+
+# Documentation
+docs/book/
+*.pdf
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Nix
+.direnv/
+.devenv/
+
+# Database
+.pgdata/
+
+# Coverage
+coverage/
+*.lcov

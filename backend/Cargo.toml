@@ -1,0 +1,138 @@
+[package]
+name = "nixspaces"
+version = "0.1.0"
+edition = "2021"
+authors = ["NixSpaces Team"]
+license = "MIT OR Apache-2.0"
+description = "Branch Everything - Cloud-based development environment platform"
+repository = "https://github.com/yourusername/nixspaces"
+keywords = ["nix", "development", "environment", "cloud", "containers"]
+categories = ["development-tools", "web-programming"]
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0.7", features = ["io"] }
+futures = "0.3"
+
+# Web framework
+axum = { version = "0.7", features = ["ws", "macros", "json", "query", "form", "multipart"] }
+axum-extra = { version = "0.9", features = ["typed-header", "cookie", "erased-json"] }
+tower = { version = "0.4", features = ["full"] }
+tower-http = { version = "0.5", features = ["fs", "cors", "trace", "compression-full", "timeout", "limit"] }
+hyper = { version = "1", features = ["full"] }
+
+# GraphQL
+async-graphql = { version = "7", features = ["apollo_tracing", "apollo_persisted_queries", "dataloader", "playground"] }
+async-graphql-axum = "7"
+
+# Database
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "json", "migrate"] }
+sea-query = { version = "0.30", features = ["postgres", "uuid", "chrono", "json"] }
+sea-query-binder = { version = "0.5", features = ["sqlx-postgres"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+toml = "0.8"
+
+# Authentication & Security
+jsonwebtoken = "9"
+argon2 = "0.5"
+rand = "0.8"
+uuid = { version = "1", features = ["v4", "serde"] }
+
+# Error handling
+thiserror = "1"
+anyhow = "1"
+
+# Logging & Tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt", "ansi"] }
+tracing-appender = "0.2"
+
+# Configuration
+config = { version = "0.14", features = ["toml", "json", "yaml", "ini"] }
+dotenvy = "0.15"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+time = "0.3"
+
+# HTTP Client
+reqwest = { version = "0.11", features = ["json", "rustls-tls", "stream"] }
+
+# Nix integration
+nix = "0.27"
+tempfile = "3"
+
+# Process management
+nix-compat = "0.1"
+which = "6"
+
+# Validation
+validator = { version = "0.18", features = ["derive"] }
+
+# Metrics & Monitoring
+prometheus = "0.13"
+metrics = "0.22"
+metrics-exporter-prometheus = "0.13"
+
+# Testing utilities
+mockall = "0.12"
+fake = { version = "2.9", features = ["derive"] }
+
+# CLI (for future use)
+clap = { version = "4", features = ["derive", "env", "string"] }
+
+# Compression
+flate2 = "1"
+tar = "0.4"
+
+# SSH for git operations
+git2 = "0.18"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+serial_test = "3"
+wiremock = "0.6"
+test-context = "0.3"
+pretty_assertions = "1"
+proptest = "1"
+rstest = "0.18"
+insta = { version = "1", features = ["yaml", "json"] }
+
+[build-dependencies]
+anyhow = "1"
+vergen = { version = "8", features = ["build", "cargo", "git", "gitcl"] }
+
+[[bin]]
+name = "nixspaces"
+path = "src/main.rs"
+
+[[bench]]
+name = "api_bench"
+harness = false
+
+[[bench]]
+name = "db_bench"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.test]
+opt-level = 0
+debug = true
+
+[workspace]
+members = []
